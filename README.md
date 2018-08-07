@@ -3,7 +3,7 @@
 This code solves your Sudoku Puzzle for you!
 <insert images of sample sudoku and solved sudoku>
 
-Possible Extension:
+##### Possible extensions:
 - [ ] Search algorithm for hard puzzles (can all sudoku puzzles be solved trivially?)
 - [ ] Test algorithm against hard puzzles
 - [ ] Implement uniqueness test
