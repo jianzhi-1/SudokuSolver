@@ -6,12 +6,14 @@
 #include <cstring>
 using namespace std;
 typedef pair<int,int> pi;
+typedef pair<char, pair<pi, int> > pii;
 
 int sudoku[9][9];
 set<int> possudoku[9][9]; //stores the possible values of the cell
 vector<pi> boxes[9];
 bool error1 = false; //input sudoku problematics
 bool error2 = false;
+vector<pii> vsearch;
 
 bool checkerror(){
 	if (error1){
@@ -47,6 +49,18 @@ void init(){
 			}
 		}
 	}
+	
+	/*
+	for (int k = 0; k < 9; k++){
+		printf("BOX %d:\n", k);
+		for (vector<pi>::iterator it = boxes[k].begin(); it != boxes[k].end(); it++){
+			printf("%d %d\n", it -> first, it -> second);
+		}
+		printf("\n");
+	}
+	*/
+	
+	vsearch.clear();
 
 }
 
@@ -75,7 +89,8 @@ void confirm(pi pos, int val){
 	} 
 	
 	//delete box
-	int boxx = (pos.first/3)*3 + pos.second%3;
+	int boxx = (pos.first/3)*3 + pos.second/3;
+	
 	for (int i = 0; i < boxes[boxx].size(); i++){
 		pi cur = boxes[boxx][i];
 		if (cur == pos) continue;
@@ -84,6 +99,8 @@ void confirm(pi pos, int val){
 	}
 }
 
+//input()
+//handles the input in the form of 9*9 grid, with ? denoting cells with unknown value
 void input(){
 	char c;
 	for (int i = 0; i < 9; i++){
@@ -100,9 +117,90 @@ void input(){
 		}
 	}
 }
+
+//checkvalid() 
+//TRUE: current sudoku is valid
+//FALSE: current sudoku not valid, a cell has 0 possible value
+bool checkvalid(){
+	for (int i = 0; i < 9; i++){
+		for (int j = 0; j < 9; j++){
+			if (possudoku[i][j].size() == 0) return false;
+		}
+	}
+	return true;
+}
+
+//checkcomplete() 
+//TRUE: sudoku is completed and has a valid solution
+//FALSE: sudoku not yet completed OR not valid
+bool checkcomplete(){
+	if (!checkvalid()) return false;
+	for (int i = 0; i < 9; i++){
+		for (int j = 0; j < 9; j++){
+			if (possudoku[i][j].size() != 1) return false;
+		}
+	}
+	set<int> ss;
+	for (int i = 0; i < 9; i++){
+		for (int j = 0; j < 9; j++){
+			ss.insert(*possudoku[i][j].begin());
+		}
+		if (ss.size() != 9) return false;
+		while (!ss.empty()){
+			ss.erase(ss.begin());
+		}
+	}
+	for (int j = 0; j < 9; j++){
+		for (int i = 0; i < 9; i++){
+			ss.insert(*possudoku[i][j].begin());
+		}
+		if (ss.size() != 9) return false;
+		while (!ss.empty()){
+			ss.erase(ss.begin());
+		}
+	}
+	for (int k = 0; k < 9; k++){
+		for (vector<pi>::iterator it = boxes[k].begin(); it != boxes[k].end(); it++){
+			ss.insert(*possudoku[it -> first][it -> second].begin());
+		}
+		if (ss.size() != 9) return false;
+		while (!ss.empty()){
+			ss.erase(ss.begin());
+		}
+	}
+	return true;
+}
+
+bool sweep(){
+	for (int i = 0; i < 9; i++){
+		for (int j = 0; j < 9; j++){
+			if (possudoku[i][j].size() == 1 && sudoku[i][j] == 0){
+				sudoku[i][j] = *possudoku[i][j].begin();
+				confirm(make_pair(i, j), sudoku[i][j]);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 int main(){
 	init();
 	input();
 	if (checkerror()) return 0;
+	while (sweep()){
+		continue;
+	}
+	printf("SOLVED:\n");
+	for (int i = 0; i < 9; i++){
+		for (int j = 0; j < 9; j++){
+			if (sudoku[i][j] != 0){
+				printf("%d ", sudoku[i][j]);
+			} else {
+				printf("?");
+			}
+		}
+		printf("\n");
+	}
 	
 }
