@@ -56,16 +56,6 @@ void init(){
 		}
 	}
 	
-	/*
-	for (int k = 0; k < 9; k++){
-		printf("BOX %d:\n", k);
-		for (vector<pi>::iterator it = boxes[k].begin(); it != boxes[k].end(); it++){
-			printf("%d %d\n", it -> first, it -> second);
-		}
-		printf("\n");
-	}
-	*/
-	
 	vsearch.clear();
 
 }
@@ -262,28 +252,11 @@ void solved(){
 	}
 }
 
-//guess
-/*
-void guess(){
-	pi pos;
-	int val = 1000;
-	for (int i = 0; i < 9; i++){
-		for (int j = 0; j < 9; j++){
-			if (sudoku[i][j] != 0) continue;
-			if (possudoku[i][j].size() < val){
-				val = possudoku[i][j].size;
-				pos = make_pair(i, j);
-			}
-		}
-	}
-	vsearch.push_back(make_pair('G', make_pair(pos, *possudoku[i][j].begin())));
-	sudoku[i]
-}
-*/
 
 int main(){
 	init();
 	input();
+	printf("\n");
 	if (checkerror()) return 0;
 	while (sweep()){
 		continue;
@@ -322,12 +295,10 @@ int main(){
 		
 		int vall = *possudoku[x][y].begin();
 		vsearch.push_back(make_pair('G', make_pair(pos, vall)));
-		cout << "Guess " << pos.first << " " << pos.second << " " << vall << endl;
 		while (!possudoku[x][y].empty()){
 			if (*possudoku[x][y].begin() != vall){
 				//deleting the rest of the options is a consequence of the guess
 				vsearch.push_back(make_pair('C', make_pair(pos, *possudoku[x][y].begin())));
-				cout << "Remove " << pos.first << " " << pos.second << " " << vall << endl;
 			}
 			possudoku[x][y].erase(possudoku[x][y].begin());
 		}
@@ -374,18 +345,14 @@ int main(){
 
 		}
 			
-		//guess();
 		if (checkcomplete()) break;
-		//backguess();
-		cout << "hello" << endl;
 	}
-	cout << "out" << endl;
+	
 	if (checkcomplete()){
 		solved();
 		return 0;
 	} else {
 		printf("UNSOLVABLE!\n");
 	}
-
 	
 }

@@ -3,3 +3,5 @@
 *.docx
 *.pptx
 *.txt
+sudoku.png
+sudokusolver.cpp
