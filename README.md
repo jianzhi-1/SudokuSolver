@@ -41,6 +41,7 @@ The above result is 3+ minutes due to the time taken to extract information and 
 
 ### More details
 Planned date of completion: 09/09/18
+
 Actual date of completion : 29/08/18
 
 Motivation: [PM Lee's posts Sudoku code](https://edition.cnn.com/2015/05/06/asia/singapore-pm-code-sudoku/index.html)
