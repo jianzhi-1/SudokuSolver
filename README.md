@@ -24,11 +24,14 @@ Any confirmation of values as a consequence of this guess will be pushed into vs
 
 If we continued till the point when we need to make another guess, we continue pushing ('G', (x,y), value) into vsearch. If we reach a point where there is a contradiction, we backtrack till the point when we made the previous guess and update the acquired information.
 
+
 ### Time taken:
 Generally takes around 0.1s for the complete solution.
 
 ![Distribution of time](result.png)
+
 The above result is 3+ minutes due to the time taken to extract information and keying them back.
+
 
 ### Possible extensions
 - [x] Search algorithm for hard puzzles (can all sudoku puzzles be solved trivially? Ans: NO!)
